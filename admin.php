@@ -1,4 +1,17 @@
 <?php  include('server.php'); ?>
+<?php 
+	if (isset($_GET['edit'])) {
+		$id = $_GET['edit'];
+		$update = true;
+		$record = mysqli_query($db, "SELECT * FROM destinatii WHERE Id=$id");
+        $n=mysqli_fetch_array($record);
+		if (count($n) == 1 ) {
+			$poza = $n['Poza'];
+			$titlu = $n['Titlu'];
+			$descriere = $n['Descriere'];
+		}
+	}
+?>
 <html>
 <head>
 <link rel="stylesheet" href="index.css"/>
@@ -17,7 +30,34 @@
 		?>
 	</div>
 <?php endif ?>
+<?php $results = mysqli_query($db, "SELECT * FROM destinatii"); ?>
+<table style="margin-left:3%;margin-right:3%">
+	<thead>
+		<tr>
+			<th>Poza</th>
+			<th>Titlu</th>
+			<th>Descriere</th>
+			<th colspan="2">Action</th>
+		</tr>
+	</thead>	
+	<?php while ($row = mysqli_fetch_array($results)) { ?>
+		<tr style="border:3px solid #5b7385;padding:5px;">
+			<td><?php echo $row['Poza']; ?></td>
+			<td><?php echo $row['Titlu']; ?></td>
+			<td><?php echo $row['Descriere']; ?></td>
+			<td style="height:50px;">
+				<a href="admin.php?edit=<?php echo $row['Id']; ?>" class="button" >Edit</a>
+			</td>
+			<td>
+				<a href="server.php?del=<?php echo $row['Id']; ?>" class="button">Delete</a>
+			</td>
+		</tr>
+	<?php } ?>
+</table>
 <form style="width:30%;margin-left:50px" method="post" action="server.php" >
+		<div class="input-group">
+			<input type="hidden" name="id" value="<?php echo $id?>">
+		</div>
 		<div class="input-group">
 			<label>Poza</label>
 			<input type="text" name="poza" value="">
@@ -31,7 +71,11 @@
 			<input type="text" name="descriere" value="">
 		</div>
 		<div class="input-group">
-			<button style="width:25%" class="button" type="submit" name="save" >Save</button>
+			<?php if ($update == true): ?>
+				<button style="width:25%" class="button" type="submit" name="update" style="background: #556B2F;" >update</button>
+			<?php else: ?>
+				<button style="width:25%" class="button" type="submit" name="save" >Save</button>
+			<?php endif ?>
 		</div>
 </form>
 <div class="how-section1">
