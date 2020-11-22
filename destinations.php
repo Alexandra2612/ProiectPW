@@ -42,61 +42,42 @@
   </div>
 </nav>
 <div class="how-section1">
-                    <div class="row">
-                        <div class="col-md-6 how-img">
-                            <img src="images/pozabordeaux.jpg" class="img-fluid" alt=""/>
-                        </div>
-                        <div class="col-md-6">
-                            <h4 style="margin-left:-25%;">Bordeaux,Franta</h4>
-                        <p class="text-muted" style="margin-left:-25%;">Bordeaux este un oraș în sud-vestul Franței, prefectura departamentului Gironde și capitala regiunii Noua Aquitania.Orașul este traversat de fluviul Garonne. Centrul istoric vechi al orașului Bordeaux a fost înscris în anul 2005 pe lista patrimoniului cultural mondial UNESCO.Orasul este cunoscut în lume pentru vinurile Bordeaux si pentru podgoriile bordeaulese, în special din secolul XVIII, care a fost o veritabila era de aur pentru oras.Aria urbana a Bordeaux are 1 215 769 locuitori în 2015, fiind a cincea arie urbana din Franta.</p>
-                        </div>
-                    </div>
-                    <div class="row">
-					<div class="col-md-6 how-img">
-                            <img src="images/pozamarseille.jpg" class="img-fluid" alt=""/>
-                        </div>
-                        <div class="col-md-6">
-                            <h4 style="margin-left:-25%;">Marseille,Franta</h4>
-                                        <p class="text-muted" style="margin-left:-25%;">Marsilia (în franceză Marseille, occitană Marselha) este al doilea cel mai mare oraș din Franța. Situată pe coasta Mediteranei, în vechea Provența (Provenza în italiană, în franceză Provence, Provença în occitană), este cel mai mare port comercial al țării. Marsilia este prefectura departamentului Bouches-du-Rhône și capitala regiunii Provence-Alpi-Coasta de Azur.</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 how-img">
-                             <img src="images/pozabucegi.jpg" class="img-fluid" alt=""/>
-                        </div>
-                        <div class="col-md-6">
-                            <h4 style="margin-left:-25%;">Muntii Bucegi,Romania</h4>
-                                        <p class="text-muted" style="margin-left:-25%;">Masivul Bucegi, cu o suprafață de circa 300 km2, se află la extremitatea estică a Carpaților Meridionali, desfășurându-se între Valea Prahovei la est și culoarul Branului și Valea Ialomiței la vest; cade brusc spre nord către depresiunea Bârsei și spre sud, până la contactul cu Subcarpații de curbură. Se întinde pe teritoriul județelor Dâmbovița, Prahova și Brașov. Fiind de o mare complexitate structurală și morfologică, masivul apare ca o cetate naturală, cu incinta suspendată la 1600 – 2500 m, sprijinită de abrupturi puternice.</p>
-                        </div>
-                    </div>
-                    <div class="row">
-					<div class="col-md-6 how-img">
-                            <img src="images/pozaapuseni.jpg" class="img-fluid" alt=""/>
-                        </div>
-                        <div class="col-md-6">
-                            <h4 style="margin-left:-25%;">Muntii Apuseni,Romania</h4>
-                                        <p class="text-muted" style="margin-left:-25%;">Munții Apuseni sunt un lanț muntos din Transilvania, parte a Carpaților Occidentali. Cel mai înalt vârf este Vârful Bihor, din munții Bihor cu o altitudine de 1849 de metri. Sunt delimitați la nord de Râul Barcău, la sud de Râul Mureș, la vest de Dealurile și Câmpia de Vest, iar la est de Depresiunea Colinară a Transilvaniei. În Munții Apuseni se află peste 400 de peșteri.</p>
-                        </div>
-                    </div>
-					<div class="row">
-					<div class="col-md-6 how-img">
-                            <img src="images/pozaviena.jpg" class="img-fluid" alt=""/>
-                        </div>
-                        <div class="col-md-6">
-                            <h4 style="margin-left:-25%;">Viena,Austria</h4>
-                                        <p class="text-muted" style="margin-left:-25%;">Viena (învechit Beciu, în maghiară Bécs) este capitala Austriei. Orașul este situat în extremitatea răsăriteană a acestei republici federale, în landul (regiunea autonomă) Viena, și este traversat de Dunăre. Regiunea autonomă Viena este, cu cei aproape două milioane de locuitori ai săi, ce reprezintă un sfert din populația totală a Austriei, al zecelea oraș ca mărime din cadrul Uniunii Europene.</p>
-                        </div>
-                    </div>
-					<div class="row">
-					<div class="col-md-6 how-img">
-                            <img src="images/pozatatra.jpg" class="img-fluid" alt=""/>
-                        </div>
-                        <div class="col-md-6">
-                            <h4 style="margin-left:-25%;">Muntii Tatra,Slovacia</h4>
-                                        <p class="text-muted" style="margin-left:-25%;">Munții Tatra reprezintă sectorul cel mai înalt al lanțului montan carpatic, grupa Carpaților de Vest. Se întinde la granița dintre Slovacia și Polonia, cea mai mare parte a masei montane revenindu-i primei. Cel mai înalt punct este vârful Gerlachovský, cu o altitudine de 2.655 m din partea slovacă. Mai multe vârfuri depășesc 2.600 m, toate în Slovacia.</p>
-                        </div>
-                    </div>
-                </div>
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "mywebsite";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT * FROM destinatii";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+  // output data of each row
+  while($row = $result->fetch_assoc()) {
+	echo "
+             <div class='row'>
+                <div class='col-md-6 how-img'>
+		          <img src='".$row["Poza"]."' class='img-fluid' alt=''/>
+	           </div>
+				<div class='col-md-6'>
+					<h4 style='margin-left:-25%;'>".$row["Titlu"]."</h4>
+				<p class='text-muted' style='margin-left:-25%;'>".$row["Descriere"]."</p>
+				</div>
+			</div>";
+  }
+} else {
+  echo "0 results";
+}
+$conn->close();
+?>
+</div>
     <footer class="the-footer">
        <hr>
 	 <h3 style="color:#16a695">Break free</h3>
