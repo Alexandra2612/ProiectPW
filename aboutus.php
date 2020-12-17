@@ -38,6 +38,9 @@
 	  <li class="nav-item">
         <a class="nav-link" href="contact.php">Contact</a>
       </li>
+	  <li class="nav-item" style="position:absolute;right:10px;top:2px">
+	   <button class="button" onclick="location.href='buttons.php';" style="width:auto;">Login</button>
+	  </li>
     </ul>
   </div>
 </nav>
@@ -45,25 +48,62 @@
 	<div style="margin-left:1%;margin-right:1%">
 	<section>
 	<br>
-	<h3 align="middle">Iubim sa calatorim</h3>
-	<br>
-	<p style="color:#6c6ce6" align="middle">Break free a luat nastere din pasiune pentru calatorie,iar dupa 10 ani in care ne-am plimbat prin toata lumea,acum e momentul pentru a descoperi mai bine acasa,Romania.De fiecare data cand ati calatorit cu noi ati avut parte de cele mai frumoase experiente pe care le poate avea omul intr-o viata si nu v-am dezamagit.Indiferent de obstacole,mereu gasim o cale spre a fi mai buni,suntem inventivi si cu zambetul pe buze.Calatorim pentru gust,savoare,arome inedite,caldura,valuri si peisaje montane de cand ne stim si ajutam pe cei care ne trec pragul sa se descopere pe ei insisi,sa isi intreaca limitele,sa cante si sa danseze asa cum le place,ca intre prieteni.Prietenie,suport,siguranta si fericire intr-un pahar.Asta este ceea ce va oferim de 10 ani si vom continua si in viitor.Fie ca suntem in Romania,Franta,Austria,Serbia sau Slovacia,vom descoperi impreuna,in natura,cultura si arhitectura,cea mai frumoasa parte din noi.</p>
-	</section>
-	<br>
-	<h3>CUNOASTE ECHIPA</h3>
-	<br>
-	<br>
-	<br>
-	<div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="images/poza2.jpg" alt="Chief Executive Officer"  width="200" height="200"/>
-  <div class="card-body">
-    <h5 class="card-title">Testoasa</h5>
-    <p class="card-text">Chief Executive Officer</p>
-	<p class="card-text">testoasa@gmail.com</p>
-  </div>
-</div>
-	</div>
+	<?php
 	
+$servername1 = "localhost";
+$username1 = "root";
+$password1 = "";
+$dbname1 = "mywebsite";
+
+// Create connection
+$conn1 = new mysqli($servername1, $username1, $password1, $dbname1);
+// Check connection
+if ($conn1->connect_error) {
+  die("Connection failed: " . $conn1->connect_error);
+}
+$sql2 = "SELECT * FROM descriere";
+$result2 = $conn1->query($sql2);
+
+$sql1 = "SELECT * FROM `despre-noi`";
+$result1 = $conn1->query($sql1);
+
+	$row2 = $result2->fetch_assoc();
+	echo "
+		<h3 align='middle'>".$row2["Titlu1"]."</h3>
+		<br>
+		<p style='color:#6c6ce6' align='middle'>".$row2["Descriere"]."</p>
+		</section>
+		<br>
+		<br>
+		<br>
+		<br>
+		<h3>".$row2["Titlu2"]."</h3>
+		<br>
+	";
+
+
+
+
+
+if ($result1->num_rows > 0) {
+  // output data of each row
+  while($row1 = $result1->fetch_assoc()) {
+	echo "
+	<div class='card' style='width: 18rem;display:inline-block'>
+  <img class='card-img-top' src='".$row1["Imagine"]."' alt='Chief Executive Officer' width='200' height='200'/>
+  <div class='card-body'>
+    <h5 class='card-title'>".$row1["Titlu3"]."</h5>
+    <p class='card-text'>".$row1["Subtitlu3"]."</p>
+	<p class='card-text'>".$row1["Mail"]."</p>
+  </div>
+</div>";
+  }
+} else {
+  echo "0 results";
+}
+$conn1->close();
+?>
+</div>
 	<br>
 	<br>
 	<br>

@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Admin Login Page</title>
+  <title>User Login Page</title>
   <link rel="stylesheet" href="index.css"/>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -68,7 +68,7 @@ session_start();
 if(isset($_POST['login']) && !empty($_POST['username']) && !empty($_POST['parola'])){
 	        $conn=mysqli_connect('localhost',$username,$password,'mywebsite');
             $user=$_POST['username'];
-            $sql ="SELECT * FROM users where username='$user'";
+            $sql ="SELECT * FROM clients where username='$user'";
             $result = mysqli_query($conn,$sql);
             $resultCheck=mysqli_num_rows($result);
             if($resultCheck>0) {
@@ -77,7 +77,7 @@ if(isset($_POST['login']) && !empty($_POST['username']) && !empty($_POST['parola
                 if (password_verify($_POST['parola'],$hash)) {
                     $_SESSION["username"] = $user;
                     $_SESSION["logged_in"] = true;
-                    header('Location:admin.php');
+                    header('Location:index.php');
 
                 }
                 else echo("Parola incorecta!");

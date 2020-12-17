@@ -38,6 +38,9 @@
 	  <li class="nav-item">
         <a class="nav-link" href="contact.php">Contact</a>
       </li>
+	  <li class="nav-item" style="position:absolute;right:10px;top:2px">
+	   <button class="button" onclick="location.href='buttons.php';" style="width:auto;">Login</button>
+	  </li>
     </ul>
   </div>
 </nav>

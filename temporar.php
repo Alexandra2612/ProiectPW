@@ -89,7 +89,7 @@ $result2 = $conn1->query($sql2);
 	<ol class="carousel-indicators">
 		<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
 	<?php
-	for ($i=1;$i<$result2->num_rows;$i++)
+	for ($i=2;$i<$result2->num_rows;i++)
 	{
 		echo "<li data-target='#carouselExampleIndicators' data-slide-to='$i'></li>";
 	}		
@@ -102,16 +102,16 @@ $result2 = $conn1->query($sql2);
 	echo "
 		<div class='carousel-item active'>
 	<div class='parent d-flex justify-content-center'>
-      <img src=".$row2["Imagine"]." alt='poza' width='600' height='400'>
+      <img src=".$row2["poza"]." alt='poza' width='600' height='400'>
 	  </div>
     </div>
 	";
 	
-	while($row2 = $result2->fetch_assoc())
+	while($row2 = $result2->fetch_assoc();)
 	echo "
 		<div class='carousel-item'>
 	<div class='parent d-flex justify-content-center'>
-      <img src=".$row2["Imagine"]." alt='poza' width='600' height='400'>
+      <img src=".$row2["poza"]." alt='poza' width='600' height='400'>
 	  </div>
     </div>
 	";
