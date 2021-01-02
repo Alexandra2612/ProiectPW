@@ -1,37 +1,42 @@
 <?php
 session_start();
 if(isset($_SESSION["username"]))
-$username1=$_SESSION["username"];
-$pass1='';
-$dbname1='mywebsite';
+$username=$_SESSION["username"];
+$pass='';
+$dbname='mywebsite';
 
-$user1='root'; $conn1=mysqli_connect('localhost',$user1,$pass1,$dbname1);
+$user='root'; $conn=mysqli_connect('localhost',$user,$pass,$dbname);
 
 if (isset($_POST['trimite'])&&isset($_POST['Comentariu'])){
-    $sql1 ="SELECT * FROM clients where username='$username1'";
-    $result1 = mysqli_query($conn1,$sql1);
+    $sql ="SELECT * FROM clients where username='$username'";
+    $result = mysqli_query($conn,$sql);
 
-    $row1=mysqli_fetch_assoc($result1);
-    $data1=date("Y-m-d");
-    $comentariu1=$_POST['Comentariu'];
+    $row=mysqli_fetch_assoc($result);
+    $data=date("Y-m-d");
+    $comentariu=$_POST['Comentariu'];
 
-    $query1 = "insert into comentarii(Id_client,Data,Comentariu) values('".$row1['id']."','$data1','$comentariu1')";
-    mysqli_query($conn1,$query1);
+    $query = "insert into comentarii(Id_client,Data,Comentariu) values('".$row['id']."','$data','$comentariu')";
+    mysqli_query($conn,$query);
 
-    mysqli_close($conn1);
-    header('Location:destinations.php');
+    mysqli_close($conn);
+    header('Location:comments.php');
 }
 ?>
-<html>
-<head>
-  <title>Destinations</title>
-  <link rel="stylesheet" href="index.css"/>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+
+<!-- Banner -->
+
+<div <html>
+
+    <head>
+<link rel="stylesheet" href="index.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 </head>
+
+
 <body style="background-color:azure">
   <header>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -43,8 +48,8 @@ if (isset($_POST['trimite'])&&isset($_POST['Comentariu'])){
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="index.php">Acasa<span class="sr-only">(current)</span></a>
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Acasa<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="aboutus.php">Despre noi</a>
@@ -52,10 +57,10 @@ if (isset($_POST['trimite'])&&isset($_POST['Comentariu'])){
 	  <li class="nav-item">
         <a class="nav-link" href="calendar.php">Calendar activitati</a>
       </li>
-	  <li class="nav-item active">
-        <a class="nav-link" href="#">Destinatii</a>
+	  <li class="nav-item">
+        <a class="nav-link" href="destinations.php">Destinatii</a>
       </li>
-      <li class="nav-item">
+     <li class="nav-item">
         <a class="nav-link" href="announcements.php">Informatii utile</a>
       </li>
 	  <li class="nav-item">
@@ -64,7 +69,8 @@ if (isset($_POST['trimite'])&&isset($_POST['Comentariu'])){
 	  <li class="nav-item" style="position:absolute;right:120px;top:2px">
 	   <button class="button" onclick="location.href='userregistration.php';" style="width:auto;">Register</button>
 	  </li>
-	 <?php
+	  <?php
+			
 	     if(!isset($_SESSION["username"])):?>
 	  <li class="nav-item" style="position:absolute;right:10px;top:2px">
 	   <button class="button" onclick="location.href='buttons.php';" style="width:auto;">Login</button>
@@ -79,56 +85,18 @@ if (isset($_POST['trimite'])&&isset($_POST['Comentariu'])){
     </ul>
   </div>
 </nav>
-</header>
-<div class="how-section1">
-<?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "mywebsite";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-
-$sql = "SELECT * FROM destinatii";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-  // output data of each row
-  while($row = $result->fetch_assoc()) {
-	echo "
-             <div class='row'>
-                <div class='col-md-6 how-img'>
-		          <img src='".$row["Poza"]."' class='img-fluid' alt=''/>
-	           </div>
-				<div class='col-md-6'>
-					<h4 style='margin-left:-25%;'>".$row["Titlu"]."</h4>
-				<p class='text-muted' style='margin-left:-25%;'>".$row["Descriere"]."</p>
-				</div>
-			</div> 
-			   ";
-  }
-} else {
-  echo "0 results";
-}
-$conn->close();
-?>
-</div>
- <div id="extra">
+<br>
+    <div id="extra">
         <div class="container">
 
                 <?php
-                $sql1 ="SELECT * FROM comentarii";
-                $result1 = mysqli_query($conn1,$sql1);
-                $resultCheck1=mysqli_num_rows($result1);
+                $sql ="SELECT * FROM comentarii";
+                $result = mysqli_query($conn,$sql);
+                $resultCheck=mysqli_num_rows($result);
                 $i=0;
 
-                if($resultCheck1>0)
-                while($row1=mysqli_fetch_assoc($result1)) {
+                if($resultCheck>0)
+                while($row=mysqli_fetch_assoc($result)) {
 
                     echo "<div  style='  width: 1200px;
                                                           padding: 10px;
@@ -141,21 +109,21 @@ $conn->close();
                     echo"
                     <section  > 
                     <span  >Utilizator : ";
-                    $id_client1=$row1["Id_client"];
-                    $sql2 ="SELECT username FROM clients where id='$id_client1'";
-                    $result2 = mysqli_query($conn1,$sql2);
-                    $resultCheck2=mysqli_num_rows($result2);
+                    $id_client=$row["Id_client"];
+                    $sql1 ="SELECT username FROM clients where id='$id_client'";
+                    $result1 = mysqli_query($conn,$sql1);
+                    $resultCheck1=mysqli_num_rows($result1);
 
-                    if($resultCheck2==1){
-                        $row2=mysqli_fetch_assoc($result2);
+                    if($resultCheck1==1){
+                        $row1=mysqli_fetch_assoc($result1);
 
-                        echo $row2["username"];  }
+                        echo $row1["username"];  }
 					
                     echo"</span><br>  Data : ";
-                    echo $row1['Data'];
+                    echo $row['Data'];
 
                     echo" <hr><br>
-                    <span  ><strong>"; echo $row1['Comentariu']; echo"</strong></span>
+                    <span  ><strong>"; echo $row['Comentariu']; echo"</strong></span>
                     </section></div>";
                   
                 }
@@ -184,11 +152,6 @@ else:
 <p>You have to be logged in in order to leave comments!</p>
 <?php endif; ?>
 </div>
-    <footer class="the-footer">
-       <hr>
-	 <h3 style="color:#16a695">Break free</h3>
-      	 
-   </footer>  
-    </header>
+</div>
 </body>
 </html>

@@ -38,9 +38,22 @@
 	  <li class="nav-item active">
         <a class="nav-link" href="#">Contact</a>
       </li>
+	  <li class="nav-item" style="position:absolute;right:120px;top:2px">
+	   <button class="button" onclick="location.href='userregistration.php';" style="width:auto;">Register</button>
+	  </li>
+	  <?php
+			session_start(); 
+	     if(!isset($_SESSION["username"])):?>
 	  <li class="nav-item" style="position:absolute;right:10px;top:2px">
 	   <button class="button" onclick="location.href='buttons.php';" style="width:auto;">Login</button>
 	  </li>
+	     <?php endif;?>
+	  <?php 
+	     if(isset($_SESSION["username"])):?>
+	  <li class="nav-item" style="position:absolute;right:10px;top:2px">
+	   <button class="button" onclick="location.href='logout.php';" style="width:auto;">Logout</button>
+	  </li>
+	     <?php endif;?>
     </ul>
   </div>
 </nav>

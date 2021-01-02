@@ -38,6 +38,9 @@
 	  <li class="nav-item">
         <a class="nav-link" href="contact.php">Contact</a>
       </li>
+	   <li class="nav-item" style="position:absolute;right:120px;top:2px">
+	   <button class="button" onclick="location.href='userregistration.php';" style="width:auto;">Register</button>
+	  </li>
 	  <?php
 			session_start(); 
 	     if(!isset($_SESSION["username"])):?>
