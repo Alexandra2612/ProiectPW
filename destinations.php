@@ -6,7 +6,28 @@ $pass1='';
 $dbname1='mywebsite';
 
 $user1='root'; $conn1=mysqli_connect('localhost',$user1,$pass1,$dbname1);
+if(isset($_POST['like'])){
+	$sql1 ="SELECT * FROM clients where username='$username1'";
+    $result1 = mysqli_query($conn1,$sql1);
+    $row1=mysqli_fetch_assoc($result1);
 
+    $query1 = "insert into likes(userid,destinationid) values('".$row1['id']."','".$_POST['id']."')";
+    mysqli_query($conn1,$query1);
+
+    mysqli_close($conn1);
+    header('Location:destinations.php');
+}
+if(isset($_POST['unlike'])){
+	$sql1 ="SELECT * FROM clients where username='$username1'";
+    $result1 = mysqli_query($conn1,$sql1);
+    $row1=mysqli_fetch_assoc($result1);
+
+    $query1 = "DELETE FROM likes WHERE userid='".$row1['id']."' AND destinationid='".$_POST['id']."'";
+    mysqli_query($conn1,$query1);
+
+    mysqli_close($conn1);
+    header('Location:destinations.php');
+}
 if (isset($_POST['trimite'])&&isset($_POST['Comentariu'])){
     $sql1 ="SELECT * FROM clients where username='$username1'";
     $result1 = mysqli_query($conn1,$sql1);
@@ -100,7 +121,34 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
-	echo "
+	$sql1 ="SELECT * FROM likes";
+                $result1 = mysqli_query($conn1,$sql1);
+                $resultCheck1=mysqli_num_rows($result1);
+				$userid=0;
+                $count=0;
+				$liked=0;
+				if(isset($_SESSION["username"])){
+				$sql2="SELECT * FROM clients WHERE username='".$_SESSION["username"]."'";
+				$result2=mysqli_query($conn1,$sql2);
+				
+				if($result2){
+					$row2=$result2->fetch_assoc();
+					$userid=$row2["id"];
+				}
+				}
+                if($resultCheck1>0)
+                while($row1=mysqli_fetch_assoc($result1)) {
+                   if($row1["destinationid"]== $row["Id"])
+				   {
+					   $count++;
+			           if($row1["userid"]==$userid)
+						   $liked=1;
+			       }
+                 
+                  
+                }
+				
+			echo "
              <div class='row'>
                 <div class='col-md-6 how-img'>
 		          <img src='".$row["Poza"]."' class='img-fluid' alt=''/>
@@ -109,8 +157,24 @@ if ($result->num_rows > 0) {
 					<h4 style='margin-left:-25%;'>".$row["Titlu"]."</h4>
 				<p class='text-muted' style='margin-left:-25%;'>".$row["Descriere"]."</p>
 				</div>
+			";
+			if(isset($_SESSION["username"]))
+				if($liked==0)
+					echo "
+						<form action='' method='post' >
+							<input type='hidden' name='id' value='".$row["Id"]."'>
+							<input style='margin-left:15px;margin-top:4px' font size='4' color=white  name='like' type='submit' value='LIKE'></font>
+						</form>";
+				else
+					echo "
+						<form action='' method='post' >
+							<input type='hidden' name='id' value='".$row["Id"]."'>
+							<input style='color:white;background-color:blue;margin-left:15px;margin-top:4px' font size='4' color=white  name='unlike' type='submit' value='LIKED'></font>
+						</form>";
+			echo "
+				<p style='margin-top:4px;margin-left:15px'>Liked by ".$count." users</p>
 			</div> 
-			   ";
+		    ";
   }
 } else {
   echo "0 results";
@@ -130,7 +194,7 @@ $conn->close();
                 if($resultCheck1>0)
                 while($row1=mysqli_fetch_assoc($result1)) {
 
-                    echo "<div  style='  width: 1200px;
+                    echo "<div  style='  width: 100%;
                                                           padding: 10px;
                                                           border: 1px solid black;
                                                           margin: 2px; 
@@ -170,10 +234,10 @@ $conn->close();
 
 
 <br><br>
-<div style="width:50%;margin-left:19%">
+<div class="container">
 <?php
 if(isset($_SESSION["username"])):?>
-<form action="" method="post" >
+<form  action="" method="post" >
     <font size="3" color=black><strong>LASA-NE O PARERE<br></strong><br><input name="Comentariu" type="text" placeholder="Ce crezi despre destinatiile noastre?"  size="15" required><br><br></font>
 
     <input font size="4" color=white  name="trimite" type="submit" value="SEND"></font>
